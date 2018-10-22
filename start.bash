@@ -29,7 +29,8 @@ echo "Enter the billing account ID of the billing account you wish to link to th
 read billing_id < /dev/tty
 
 echo "##### Creating project $project_id #####"
-gcloud beta projects create "$project_id" --name="project_id"
+# No beta version of this.
+gcloud projects create "$project_id" --name="project_id"
 
 echo "##### Linking project $project_id with billing account $(gcloud beta billing accounts describe "$billing_id" --format json | jq -r .displayName) #####"
 gcloud beta billing projects link "$project_id" --billing-account "billing_id"
