@@ -17,13 +17,13 @@
 # No need to select an organization, as a non org project can be moved into an org later.
 
 echo "Enter your desired project ID. This must be globally unique on google cloud."
-read project_id
+read project_id < /dev/tty
 
 gcloud beta billing accounts list
 
 echo "Above you can see a list of billing accounts you have access to."
 echo "Enter the billing account ID of the billing account you wish to link to this project."
-read billing_id
+read billing_id < /dev/tty
 
 # We enable the compute API. The compute API is required in order to spin up a bastion instance.
 #gcloud beta services enable compute.googleapis.com
