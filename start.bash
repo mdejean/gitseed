@@ -25,5 +25,7 @@ echo "Above you can see a list of billing accounts you have access to."
 echo "Enter the billing account ID of the billing account you wish to link to this project."
 read billing_id < /dev/tty
 
+echo "We will create project $project_id and linking it to billing account $billing_id"
+
 # We enable the compute API. The compute API is required in order to spin up a bastion instance.
 #gcloud beta services enable compute.googleapis.com
