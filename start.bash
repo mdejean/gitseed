@@ -30,10 +30,10 @@ read billing_id < /dev/tty
 
 echo "##### Creating project $project_id #####"
 # No beta version of this.
-gcloud projects create "$project_id" --name="project_id"
+gcloud projects create "$project_id" --name="$project_id"
 
 echo "##### Linking project $project_id with billing account $(gcloud beta billing accounts describe "$billing_id" --format json | jq -r .displayName) #####"
-gcloud beta billing projects link "$project_id" --billing-account "billing_id"
+gcloud beta billing projects link "$project_id" --billing-account "$billing_id"
 
 echo "##### Enabling the compute API #####"
 gcloud beta services enable compute.googleapis.com
