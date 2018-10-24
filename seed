@@ -47,6 +47,11 @@ gcloud beta compute project-info add-metadata --metadata enable-oslogin=TRUE
 echo "##### Adding the gitseed git repo to the project metadata #####"
 gcloud beta compute project-info add-metadata --metadata gitseed="$(git config --get remote.origin.url)"
 
+echo "##### Opening port 80 #####"
+gcloud compute firewall-rules create allow-http \
+       --direction=INGRESS --priority=1000 --network=default \
+       --action=ALLOW --rules=tcp:80 --source-ranges=0.0.0.0/0
+
 # We can query the instance metadata to determine the zone id of the cloud shell instance.
 # We want to use the same zone for our bastion instance.
 zone_id=$(curl -s http://metadata.google.internal/computeMetadata/v1/instance/zone)
