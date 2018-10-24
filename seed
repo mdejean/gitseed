@@ -47,6 +47,10 @@ gcloud beta compute project-info add-metadata --metadata enable-oslogin=TRUE
 echo "##### Adding the gitseed git repo to the project metadata #####"
 gcloud beta compute project-info add-metadata --metadata gitseed="$(git config --get remote.origin.url)"
 
+admin_user=$(gcloud config get-value account 2> /dev/null)
+echo "##### Adding admin user $admin_user to project metadata #####"
+gcloud beta compute project-info add-metadata --metadata admin="$admin_user"
+
 echo "##### Opening port 80 #####"
 gcloud compute firewall-rules create allow-http \
        --direction=INGRESS --priority=1000 --network=default \
@@ -77,4 +81,4 @@ tar -zcf /tmp/gitseed.tar.gz .
 gcloud beta compute scp /tmp/gitseed.tar.gz bastion:/tmp/gitseed.tar.gz
 
 echo "##### Executing phase_one #####"
-gcloud beta compute ssh bastion -- 'bash -s' < phase_one/phase_one.bash
+gcloud beta compute ssh bastion -- 'bash -s' < first_phase/first_phase.bash
