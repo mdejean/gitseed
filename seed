@@ -64,6 +64,12 @@ gcloud beta compute instances create bastion \
        --min-cpu-platform="Intel Skylake" --scopes=https://www.googleapis.com/auth/cloud-platform
 
 # Now that we have a bastion instance. We need to do the following:
-# 1. SCP over the phase_one directory to the bastion instance.
-# 2. Remotely run the phase_one script on the bastion instance.
-gcloud beta compute scp --recurse phase_one/ bastion:/tmp/
+# 1. tgz the repo and scp it over to the bastion instance.
+# 2. Run the phase one script remotely on the bastion instance.
+
+echo "##### Transfering repo to bastion instance #####"
+tar -zcf /tmp/gitseed.tar.gz .
+gcloud beta compute scp /tmp/gitseed.tar.gz bastion:/tmp/gitseed.tar.gz
+
+echo "##### Executing phase_one #####"
+gcloud beta compute ssh bastion -- 'bash -s' < phase_one/phase_one.bash
