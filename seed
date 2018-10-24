@@ -5,9 +5,6 @@ set -e
 # This will set the script's current directory to the directory the script is in.
 cd "${0%/*}"
 
-gcloud beta compute project-info add-metadata --metadata gitseed="$(git config --get remote.origin.url)"
-exit 0
-
 # This is where it all starts.
 # This script is run in the google cloud shell.
 # Its main goal is to get us out of the google cloud shell ASAP.
@@ -69,3 +66,4 @@ gcloud beta compute instances create bastion \
 # Now that we have a bastion instance. We need to do the following:
 # 1. SCP over the phase_one directory to the bastion instance.
 # 2. Remotely run the phase_one script on the bastion instance.
+gcloud beta compute scp --recurse phase_one/ bastion:/tmp/
