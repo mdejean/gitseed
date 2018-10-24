@@ -9,7 +9,7 @@ rm /tmp/gitseed.tar.gz
 echo "#### Downloading and installing gotty ####"
 gotty_url="https://github.com/yudai/gotty/releases/download/v2.0.0-alpha.3/gotty_2.0.0-alpha.3_linux_amd64.tar.gz"
 wget --progress=dot:giga -O /tmp/gotty.tar.gz "$gotty_url"
-tar -zxvf /tmp/gotty.tar.gz
+tar -C /tmp/ -zxvf /tmp/gotty.tar.gz
 sudo cp /tmp/gotty /usr/local/bin/gotty
 rm /tmp/gotty.tar.gz
 
