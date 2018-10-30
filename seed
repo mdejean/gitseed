@@ -30,8 +30,10 @@ echo "Above you can see a list of billing accounts you have access to."
 echo "Enter the billing account ID of the billing account you wish to link to this project."
 read billing_id < /dev/tty
 
-# WE ARE GOING TO BITE THE BULLET AND HAVE A MASTER PASSWORD IN THE INITIAL PHASE
-# TODO!!!
+echo "Finally you need to provide a master password unfortunately."
+echo "Certain services need to be bootstrapped with username and password authentication."
+echo "This master password will be encrypted by KMS then stored base64 in the project metadata."
+read master_password < /dev/tty
 
 echo "##### Creating project $project_id #####"
 # No beta version of this.
@@ -43,6 +45,20 @@ gcloud beta billing projects link "$project_id" --billing-account "$billing_id"
 
 echo "##### Enabling the compute API #####"
 gcloud beta services enable compute.googleapis.com
+
+echo "##### Enablin the KMS API #####"
+gcloud beta services enable cloudkms.googleapis.com
+
+echo "##### Creating KMS keyring and key #####"
+gcloud beta kms keyrings create gitseed --location global
+gcloud beta kms keys create gitseed --location=global --keyring gitseed --purpose encryption
+
+echo "##### Encrypting master password, and adding it to project metadata #####"
+encrypted_master_password=$(echo "$master_password" | gcloud beta kms encrypt \
+                                                             --ciphertext-file - --plaintext-file - \
+                                                             --location global --keyring gitseed --key gitseed \
+                                   | base64 -w 0)
+gcloud beta compute project-info add-metadata --metadata master-password="$encrypted_master_password"
 
 echo "##### Enabling OS login for the project #####"
 gcloud beta compute project-info add-metadata --metadata enable-oslogin=TRUE
