@@ -1,0 +1,9 @@
+- name: 'Installing packages that are part of vanilla debian.'
+  apt:
+    name: '{{ vanilla_packages }}'
+  become: 'yes'
+
+- name: '.emacs file for current user.'
+  copy:
+    src: 'emacs.el'
+    dest: '{{ ansible_facts["user_dir"] }}/.emacs'
