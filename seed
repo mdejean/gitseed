@@ -43,8 +43,6 @@ if [[ "$master_password" != "$master_password_again" ]] ; then
     exit 1
 fi
 
-exit 0
-
 echo "##### Creating project $project_id #####"
 # No beta version of this.
 gcloud projects create "$project_id" --name="$project_id"
