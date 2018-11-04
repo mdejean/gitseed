@@ -35,6 +35,16 @@ echo "Certain services need to be bootstrapped with username and password authen
 echo "This master password will be encrypted by KMS then stored base64 in the project metadata."
 read -s master_password < /dev/tty
 
+echo "Reenter the master password."
+read -s master_password_again < /dev/tty
+
+if [[ "$master_password" != "$master_password_again" ]] ; then
+    echo "Passwords don't match."
+    exit 1
+fi
+
+exit 0
+
 echo "##### Creating project $project_id #####"
 # No beta version of this.
 gcloud projects create "$project_id" --name="$project_id"
