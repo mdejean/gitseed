@@ -33,7 +33,7 @@ read billing_id < /dev/tty
 echo "Finally you need to provide a master password unfortunately."
 echo "Certain services need to be bootstrapped with username and password authentication."
 echo "This master password will be encrypted by KMS then stored base64 in the project metadata."
-read master_password < /dev/tty
+read -s master_password < /dev/tty
 
 echo "##### Creating project $project_id #####"
 # No beta version of this.
