@@ -1,0 +1,20 @@
+- name: Get latest terraform version number from github
+  uri: 
+    url: https://github.com/hashicorp/terraform/releases/latest
+    method: HEAD
+  register: tf_latest_uri
+  changed_when: False
+
+- name: Get installed terraform version
+  shell: /opt/terraform version 2>&1
+  register: tf_installed_shell
+  ignore_errors: True
+  changed_when: False
+
+- name: Download + unzip terraform
+  when: tf_latest != tf_installed
+  become: True
+  unarchive:
+    src: https://releases.hashicorp.com/terraform/{{ tf_latest }}/terraform_{{ tf_latest }}_linux_amd64.zip
+    dest: /opt
+    remote_src: yes

@@ -1,0 +1,2 @@
+tf_latest: "{{ tf_latest_uri.url | urlsplit('path') | basename | regex_replace('^v', '') }}"
+tf_installed: "{{ tf_installed_shell.stdout | regex_replace('^Terraform v', '') }}"
