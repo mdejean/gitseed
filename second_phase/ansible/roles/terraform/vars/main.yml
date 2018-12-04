@@ -1,2 +1,6 @@
-tf_latest: "{{ tf_latest_uri.url | urlsplit('path') | basename | regex_replace('^v', '') }}"
-tf_installed: "{{ tf_installed_shell.stdout | regex_replace('^Terraform v', '') }}"
+terraform:
+  github_api: "https://api.github.com/repos/hashicorp/terraform/"
+  release_server: "https://releases.hashicorp.com/terraform/"
+  path: /opt/terraform
+  latest: "{{ lookup('url', terraform.github_api + 'releases/latest', split_lines=False) | json_query('tag_name') | regex_replace('^v', '') }}"
+  installed: "{{ lookup('pipe', terraform.path + ' version 2>&1') | regex_replace('^Terraform v', '') }}"
