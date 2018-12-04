@@ -1,7 +1,7 @@
 - name: Download + unzip terraform if new version is available
-  when: terraform.latest != terraform.installed
+  when: tf_latest != tf_installed
   become: True
   unarchive:
-    src: "{{ terraform.release_server + '/' + terraform.latest + 'terraform_' + terraform.latest + '_linux_amd64.zip' }}"
-    dest: "{{ terraform.path | dirname }}"
+    src: "{{ tf_release_server + '/' + tf_latest + 'terraform_' + tf_latest + '_linux_amd64.zip' }}"
+    dest: "{{ tf_path | dirname }}"
     remote_src: yes

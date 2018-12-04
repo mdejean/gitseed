@@ -1,6 +1,5 @@
-terraform:
-  github_api: "https://api.github.com/repos/hashicorp/terraform/"
-  release_server: "https://releases.hashicorp.com/terraform/"
-  path: /opt/terraform
-  latest: "{{ lookup('url', terraform.github_api + 'releases/latest', split_lines=False) | json_query('tag_name') | regex_replace('^v', '') }}"
-  installed: "{{ lookup('pipe', terraform.path + ' version 2>&1') | regex_replace('^Terraform v', '') }}"
+tf_github_api: "https://api.github.com/repos/hashicorp/terraform/"
+tf_release_server: "https://releases.hashicorp.com/terraform/"
+tf_path: /opt/terraform
+tf_latest: "{{ lookup('url', tf_github_api + 'releases/latest', split_lines=False) | json_query('tag_name') | regex_replace('^v', '') }}"
+tf_installed: "{{ lookup('pipe', tf_path + ' version 2>&1') | regex_replace('^Terraform v', '') }}"
