@@ -2,6 +2,6 @@
   when: terraform.latest != terraform.installed
   become: True
   unarchive:
-    src: {{ terraform.release_server + '/' + terraform.latest + 'terraform_' + terraform.latest + '_linux_amd64.zip' }}
-    dest: {{ terraform.path | dirname }}
+    src: "{{ terraform.release_server + '/' + terraform.latest + 'terraform_' + terraform.latest + '_linux_amd64.zip' }}"
+    dest: "{{ terraform.path | dirname }}"
     remote_src: yes
